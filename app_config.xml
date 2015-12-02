@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:aspectj-autoproxy/>
+
+    <bean id="myAspect" class="com.enotion.model.MyAspect"/>
+
+    <bean id="myBean" class="com.enotion.model.MyBeanImpl"/>
+
+    <bean id="myXmlAspect" class="com.enotion.model.MyXmlAspect"/>
+
+    <aop:config>
+        <!-- define global poincut -->
+        <aop:pointcut id="xmlPointCut" expression="execution(* com.enotion.model.MyBeanImpl.xmlHello(String)) and args(firstName)"/>
+
+        <!--define aspect -->
+        <aop:aspect id="xmlAspect" ref="myXmlAspect">
+
+            <!--define advice -->
+            <aop:before pointcut-ref="xmlPointCut" method="aspectBeforeMethod" />
+
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>
